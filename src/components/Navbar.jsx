@@ -1,12 +1,28 @@
 import React from 'react';
 import Logo from "../assets/images/logo.webp"
-import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
+import {BASE_URL} from "../utils/constants";
+import axios from 'axios';
+import {removeUser} from "../utils/userSlice"
+
 
 const Navbar = () => {
   const user = useSelector((store) => store.user);
-
+  const dispatch=useDispatch();
+  const navigate=useNavigate();
   const isLoggedIn = user && Object.keys(user).length > 0;
+
+  const handleLogout=async()=>{
+    try{
+      await axios.post(BASE_URL+"/logout",{},{withCredentials:true});
+      dispatch(removeUser());
+     return navigate("/login");
+    }
+    catch(err){
+      
+    }
+  }
 
   return (
     <div className="navbar bg-base-300 shadow-sm px-4 min-h-[60px]">
@@ -49,7 +65,7 @@ const Navbar = () => {
                 </Link>
               </li>
               <li><a>Settings</a></li>
-              <li><a>Logout</a></li>
+              <li><a onClick={handleLogout}>Logout</a></li>
             </ul>
           </div>
         </div>
