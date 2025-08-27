@@ -27,7 +27,7 @@ const Navbar = () => {
   return (
     <div className="navbar bg-base-300 shadow-sm px-4 min-h-[60px]">
       <div className="flex-1">
-        <Link to="/" className="btn btn-ghost p-0 h-full">
+        <Link to="/feed" className="btn btn-ghost p-0 h-full">
           <img 
             src={Logo} 
             alt="DevSphere Logo" 
@@ -64,6 +64,7 @@ const Navbar = () => {
                   <span className="badge">New</span>
                 </Link>
               </li>
+              <li><Link to="/feed">Feed</Link></li>
               <li><Link to="/connections">Connections</Link></li>
               <li><Link to="/requests">Requests</Link></li>
               <li><a onClick={handleLogout}>Logout</a></li>
