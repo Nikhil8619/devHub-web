@@ -34,14 +34,18 @@ const Login = () => {
     }
   }
 
-  const handleSignUp=async()=>{
-    try{
-      const res=await axios.post(BASE_URL+"/signup", {firstName,lastName,emailId,passWord},{withCredentials:true});
+  const handleSignUp = async () => {
+    try {
+      const res = await axios.post(
+        BASE_URL + "/signup", 
+        {firstName, lastName, emailId, passWord},
+        {withCredentials: true}
+      );
       dispatch(addUser(res.data.data));
       return navigate("/profile");
-
-    }catch(err){
-      
+    } catch (err) {
+      // Display the error message in the UI
+      setError(err?.response?.data || "Something went wrong during signup");
     }
   }
 
@@ -115,13 +119,30 @@ const Login = () => {
               />
             </div>
             
-            {error && <p className="text-red-500 mb-4 text-center">{error}</p>}
+            {error && (
+              <div className="alert alert-error mb-4">
+                <svg 
+                  xmlns="http://www.w3.org/2000/svg" 
+                  className="stroke-current shrink-0 h-6 w-6" 
+                  fill="none" 
+                  viewBox="0 0 24 24"
+                >
+                  <path 
+                    strokeLinecap="round" 
+                    strokeLinejoin="round" 
+                    strokeWidth="2" 
+                    d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" 
+                  />
+                </svg>
+                <span>{error}</span>
+              </div>
+            )}
             
             <div className="form-control mt-2 flex justify-center">
               <button 
                 className="btn btn-primary cursor-pointer" 
                 type="button" 
-                onClick={isLoggedIn? handleLogin : handleSignUp}
+                onClick={isLoggedIn ? handleLogin : handleSignUp}
               >
                 {isLoggedIn ? "Login" : "Sign Up"}
               </button>
@@ -131,7 +152,10 @@ const Login = () => {
           <div className="text-center mt-6">
             <p 
               className="text-gray-600 hover:text-blue-600 transition-colors cursor-pointer"
-              onClick={() => setIsLoggedIn((value) => !value)}
+              onClick={() => {
+                setIsLoggedIn((value) => !value);
+                setError(""); // Clear error when switching between login/signup
+              }}
             >
               {isLoggedIn ? 
                 "New to DevHub? " : 
