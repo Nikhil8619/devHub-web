@@ -50,9 +50,9 @@ const Login = () => {
   }
 
   return (
-    <div className="flex justify-center items-center min-h-screen ">
-      <div className="card bg-base-200 w-96 shadow-xl">
-        <div className="card-body">
+    <div className="flex justify-center items-center py-8 px-4 min-h-[calc(100vh-120px)]">
+      <div className="card bg-base-200 w-full max-w-md shadow-xl">
+        <div className="card-body p-6 sm:p-8">
           <h2 className="card-title justify-center text-2xl font-bold mb-2">
             {isLoggedIn ? "Welcome Back" : "Welcome to DevHub"}
           </h2>
@@ -64,26 +64,26 @@ const Login = () => {
             {!isLoggedIn && 
               <>
                 <div className="form-control mb-4">
-                  <label className="label">
+                  <label className="label block">
                     <span className="label-text">First Name</span>
                   </label>
                   <input 
                     type="text" 
                     placeholder="Enter your first name" 
-                    className="input input-bordered" 
+                    className="input input-bordered w-full" 
                     value={firstName}
                     onChange={(e) => setFirstName(e.target.value)}
                   />
                 </div>
 
                 <div className="form-control mb-4">
-                  <label className="label">
+                  <label className="label block">
                     <span className="label-text">Last Name</span>
                   </label>
                   <input 
                     type="text" 
                     placeholder="Enter your last name" 
-                    className="input input-bordered" 
+                    className="input input-bordered w-full" 
                     value={lastName}
                     onChange={(e) => setLastName(e.target.value)}
                   />
@@ -92,13 +92,13 @@ const Login = () => {
             }
 
             <div className="form-control mb-4">
-              <label className="label">
+              <label className="label block">
                 <span className="label-text">Email Address</span>
               </label>
               <input 
                 type="email" 
                 placeholder="Enter your email address" 
-                className="input input-bordered" 
+                className="input input-bordered w-full" 
                 value={emailId}
                 onChange={(e) => setEmailId(e.target.value)}
                 required
@@ -106,13 +106,13 @@ const Login = () => {
             </div>
             
             <div className="form-control mb-6">
-              <label className="label">
+              <label className="label block">
                 <span className="label-text">Password</span>
               </label>
               <input 
                 type="password" 
                 placeholder="Enter your password" 
-                className="input input-bordered" 
+                className="input input-bordered w-full" 
                 value={passWord}
                 onChange={(e) => setPassWord(e.target.value)}
                 required
