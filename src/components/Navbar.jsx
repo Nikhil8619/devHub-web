@@ -6,32 +6,31 @@ import {BASE_URL} from "../utils/constants";
 import axios from 'axios';
 import {removeUser} from "../utils/userSlice"
 
-
 const Navbar = () => {
   const user = useSelector((store) => store.user);
-  const dispatch=useDispatch();
-  const navigate=useNavigate();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const isLoggedIn = user && Object.keys(user).length > 0;
 
-  const handleLogout=async()=>{
-    try{
-      await axios.post(BASE_URL+"/logout",{},{withCredentials:true});
+  const handleLogout = async() => {
+    try {
+      await axios.post(BASE_URL + "/logout", {}, {withCredentials: true});
       dispatch(removeUser());
-     return navigate("/login");
+      return navigate("/login");
     }
-    catch(err){
-      
+    catch(err) {
+      console.error("Logout error:", err);
     }
   }
 
   return (
     <div className="navbar bg-base-300 shadow-sm px-4 min-h-[60px]">
-      <div className="flex-1">
-        <Link to="/feed" className="btn btn-ghost p-0 h-full">
+      <div className="flex-2">
+        <Link to="/feed" className="btn btn-ghost p-0 h-full flex justify-start ">
           <img 
             src={Logo} 
-            alt="DevSphere Logo" 
-            className="h-[80px] w-[80px] object-contain p-1 rounded-full" 
+            alt="DevHub Logo" 
+            className="h-12 md:h-14 lg:h-16 w-auto" 
           />
         </Link>
       </div>
@@ -39,13 +38,13 @@ const Navbar = () => {
       {/* Show welcome message and profile dropdown only when logged in */}
       {isLoggedIn && (
         <div className="flex gap-4 items-center">
-          {/* Welcome message */}
-          <span className="font-medium text-lg">
+          {/* Welcome message - hidden on small screens */}
+          <span className="hidden sm:inline font-medium text-lg">
             Welcome, {user.firstName}
           </span>
 
           {/* Profile dropdown */}
-          <div className="dropdown dropdown-end mx-4">
+          <div className="dropdown dropdown-end">
             <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
               <div className="w-10 rounded-full">
                 <img
