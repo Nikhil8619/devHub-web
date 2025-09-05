@@ -25,13 +25,13 @@ const EditProfile = ({ user }) => {
         { firstName, lastName, gender, age, about, photoUrl },
         { withCredentials: true }
       );
-      
+
       dispatch(addUser(res?.data?.data));
 
       // Show toast on success
       toast.success("Profile updated successfully!", {
         position: "top-center",
-        autoClose: 3000,   // 3 seconds
+        autoClose: 3000, // 3 seconds
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
@@ -49,128 +49,143 @@ const EditProfile = ({ user }) => {
       {/* Toast Container */}
       <ToastContainer />
 
-      <div className="flex flex-col lg:flex-row justify-center items-start gap-8 p-4 lg:p-8 bg-gray-800 pb-20"> {/* Added pb-20 for bottom padding */}
+      <div className="flex flex-col lg:flex-row justify-center items-center lg:items-start gap-4 md:gap-6 lg:gap-8 p-4 md:p-6 lg:p-8 bg-gray-800 min-h-screen">
         {/* Edit Profile Card */}
-        <div className="card bg-gray-700 w-full lg:w-96 shadow-xl rounded-2xl border border-gray-600">
-          <div className="card-body p-6">
-            <h2 className="card-title justify-center text-2xl font-bold mb-4 text-white">
-              Edit Profile
-            </h2>
+        {/* Edit Profile Card */}
+        <div className="w-full max-w-lg bg-gray-700 shadow-lg rounded-2xl border border-gray-600 p-6 md:p-8">
+          <h2 className="text-center text-2xl font-bold text-white mb-6">
+            Edit Profile
+          </h2>
 
-            <form>
-              {/* First Name */}
-              <div className="form-control mb-4">
-                <label className="label">
-                  <span className="label-text font-medium text-gray-300">First Name</span>
-                </label>
-                <input
-                  type="text"
-                  placeholder="Enter your first name"
-                  className="input input-bordered bg-gray-600 border-gray-500 text-white focus:bg-gray-500 focus:border-gray-400"
-                  value={firstName}
-                  onChange={(e) => setFirstName(e.target.value)}
-                />
-              </div>
+          <form className="space-y-5">
+            {/* First Name */}
+            <div>
+              <label className="block text-gray-300 text-sm font-medium mb-1">
+                First Name
+              </label>
+              <input
+                type="text"
+                placeholder="Enter your first name"
+                className="w-full px-4 py-2 rounded-lg bg-gray-600 border border-gray-500 text-white 
+                   focus:ring-2 focus:ring-indigo-500 focus:outline-none text-sm"
+                value={firstName}
+                onChange={(e) => setFirstName(e.target.value)}
+              />
+            </div>
 
-              {/* Last Name */}
-              <div className="form-control mb-4">
-                <label className="label">
-                  <span className="label-text font-medium text-gray-300">Last Name</span>
-                </label>
-                <input
-                  type="text"
-                  placeholder="Enter your last name"
-                  className="input input-bordered bg-gray-600 border-gray-500 text-white focus:bg-gray-500 focus:border-gray-400"
-                  value={lastName}
-                  onChange={(e) => setLastName(e.target.value)}
-                />
-              </div>
+            {/* Last Name */}
+            <div>
+              <label className="block text-gray-300 text-sm font-medium mb-1">
+                Last Name
+              </label>
+              <input
+                type="text"
+                placeholder="Enter your last name"
+                className="w-full px-4 py-2 rounded-lg bg-gray-600 border border-gray-500 text-white 
+                   focus:ring-2 focus:ring-indigo-500 focus:outline-none text-sm"
+                value={lastName}
+                onChange={(e) => setLastName(e.target.value)}
+              />
+            </div>
 
-              {/* Age */}
-              <div className="form-control mb-4">
-                <label className="label">
-                  <span className="label-text font-medium text-gray-300">Age</span>
-                </label>
-                <input
-                  type="number"
-                  placeholder="Enter your age"
-                  className="input input-bordered bg-gray-600 border-gray-500 text-white focus:bg-gray-500 focus:border-gray-400"
-                  value={age}
-                  onChange={(e) => setAge(e.target.value)}
-                />
-              </div>
+            {/* Age */}
+            <div>
+              <label className="block text-gray-300 text-sm font-medium mb-1">
+                Age
+              </label>
+              <input
+                type="number"
+                placeholder="Enter your age"
+                className="w-full px-4 py-2 rounded-lg bg-gray-600 border border-gray-500 text-white 
+                   focus:ring-2 focus:ring-indigo-500 focus:outline-none text-sm"
+                value={age}
+                onChange={(e) => setAge(e.target.value)}
+              />
+            </div>
 
-              {/* Gender */}
-              <div className="form-control mb-4">
-                <label className="label">
-                  <span className="label-text font-medium text-gray-300">Gender</span>
-                </label>
-                <select
-                  className="select select-bordered bg-gray-600 border-gray-500 text-white focus:bg-gray-500 focus:border-gray-400"
-                  value={gender}
-                  onChange={(e) => setGender(e.target.value)}
-                >
-                  <option value="" disabled className="text-gray-400">
-                    Select your gender
-                  </option>
-                  <option value="male" className="text-gray-800">Male</option>
-                  <option value="female" className="text-gray-800">Female</option>
-                  <option value="other" className="text-gray-800">Others</option>
-                </select>
-              </div>
+            {/* Gender */}
+            <div>
+              <label className="block text-gray-300 text-sm font-medium mb-1">
+                Gender
+              </label>
+              <select
+                className="w-full px-4 py-2 rounded-lg bg-gray-600 border border-gray-500 text-white 
+                   focus:ring-2 focus:ring-indigo-500 focus:outline-none text-sm"
+                value={gender}
+                onChange={(e) => setGender(e.target.value)}
+              >
+                <option value="" disabled className="text-gray-400">
+                  Select your gender
+                </option>
+                <option value="male" className="text-gray-800">
+                  Male
+                </option>
+                <option value="female" className="text-gray-800">
+                  Female
+                </option>
+                <option value="other" className="text-gray-800">
+                  Other
+                </option>
+              </select>
+            </div>
 
-              {/* Photo URL */}
-              <div className="form-control mb-4">
-                <label className="label">
-                  <span className="label-text font-medium text-gray-300">Photo URL</span>
-                </label>
-                <input
-                  type="url"
-                  placeholder="Enter your photo URL"
-                  className="input input-bordered bg-gray-600 border-gray-500 text-white focus:bg-gray-500 focus:border-gray-400"
-                  value={photoUrl}
-                  onChange={(e) => setPhotoUrl(e.target.value)}
-                />
-              </div>
+            {/* Photo URL */}
+            <div>
+              <label className="block text-gray-300 text-sm font-medium mb-1">
+                Photo URL
+              </label>
+              <input
+                type="url"
+                placeholder="Enter your photo URL"
+                className="w-full px-4 py-2 rounded-lg bg-gray-600 border border-gray-500 text-white 
+                   focus:ring-2 focus:ring-indigo-500 focus:outline-none text-sm"
+                value={photoUrl}
+                onChange={(e) => setPhotoUrl(e.target.value)}
+              />
+            </div>
 
-              {/* About */}
-              <div className="form-control mb-6">
-                <label className="label">
-                  <span className="label-text font-medium text-gray-300">About</span>
-                </label>
-                <textarea
-                  className="textarea textarea-bordered bg-gray-600 border-gray-500 text-white focus:bg-gray-500 focus:border-gray-400 h-24"
-                  placeholder="Tell us about yourself"
-                  value={about}
-                  onChange={(e) => setAbout(e.target.value)}
-                />
-              </div>
+            {/* About */}
+            <div>
+              <label className="block text-gray-300 text-sm font-medium mb-1">
+                About
+              </label>
+              <textarea
+                className="w-full px-4 py-2 rounded-lg bg-gray-600 border border-gray-500 text-white 
+                   focus:ring-2 focus:ring-indigo-500 focus:outline-none text-sm h-24 resize-none"
+                placeholder="Tell us about yourself"
+                value={about}
+                onChange={(e) => setAbout(e.target.value)}
+              />
+            </div>
 
-              {error && <p className="text-red-400 mb-4 text-center">{error}</p>}
+            {error && (
+              <p className="text-red-400 text-sm text-center">{error}</p>
+            )}
 
-              <div className="form-control">
-                <button
-                  className="btn btn-primary w-full py-3 text-lg font-semibold bg-indigo-600 border-indigo-600 hover:bg-indigo-500 hover:border-indigo-500"
-                  type="button"
-                  onClick={saveProfile}
-                >
-                  Save Changes
-                </button>
-              </div>
-            </form>
-          </div>
+            {/* Save Button */}
+            <button
+              type="button"
+              onClick={saveProfile}
+              className="w-full py-2.5 text-white font-semibold rounded-lg bg-indigo-600 hover:bg-indigo-500 
+                 transition duration-200 shadow-md"
+            >
+              Save Changes
+            </button>
+          </form>
         </div>
 
-        {/* Live Preview User Card - Fixed Size Container */}
-        <div className="w-full lg:w-auto flex flex-col items-center">
-          <h3 className="text-xl font-semibold text-white mb-4">Profile Preview</h3>
-          <div className="w-80 mx-auto">
-            <UserCard 
-              user={{ firstName, lastName, age, gender, photoUrl, about }} 
+        {/* Live Preview User Card */}
+        <div className="w-full max-w-md lg:max-w-sm xl:max-w-md 2xl:max-w-md flex flex-col items-center">
+          <h3 className="text-lg md:text-xl font-semibold text-white mb-3 md:mb-4">
+            Profile Preview
+          </h3>
+          <div className="w-full max-w-xs md:max-w-sm mx-auto">
+            <UserCard
+              user={{ firstName, lastName, age, gender, photoUrl, about }}
               isPreview={true}
             />
           </div>
-          <p className="text-gray-400 text-sm mt-4 text-center">
+          <p className="text-gray-400 text-xs md:text-sm mt-3 md:mt-4 text-center max-w-md">
             This is how your profile will appear to others
           </p>
         </div>

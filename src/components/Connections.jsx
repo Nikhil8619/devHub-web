@@ -10,6 +10,45 @@ const Connections = () => {
   const connections = useSelector((store) => store.connection);
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const cardsPerPage = 6;
+
+  const indexOfLastCard = currentPage * cardsPerPage;
+  const indexOfFirstCard = indexOfLastCard - cardsPerPage;
+  const currentCards = connections.slice(indexOfFirstCard, indexOfLastCard);
+  const totalPages = Math.ceil(connections.length / cardsPerPage);
+
+  const getPageNumbers = () => {
+    const pageNumbers = [];
+    if (totalPages <= 5) {
+      for (let i = 1; i <= totalPages; i++) {
+        pageNumbers.push(i);
+      }
+    } else {
+      if (currentPage <= 3) {
+        for (let i = 1; i <= 3; i++) {
+          pageNumbers.push(i);
+        }
+        pageNumbers.push('...');
+        pageNumbers.push(totalPages);
+      } else if (currentPage >= totalPages - 2) {
+        pageNumbers.push(1);
+        pageNumbers.push('...');
+        for (let i = totalPages - 2; i <= totalPages; i++) {
+          pageNumbers.push(i);
+        }
+      } else {
+        pageNumbers.push(1);
+        pageNumbers.push('...');
+        pageNumbers.push(currentPage - 1);
+        pageNumbers.push(currentPage);
+        pageNumbers.push(currentPage + 1);
+        pageNumbers.push('...');
+        pageNumbers.push(totalPages);
+      }
+    }
+    return pageNumbers;
+  };
   
   const fetchConnections = async () => {
     try {
@@ -37,7 +76,7 @@ const Connections = () => {
           <div className="flex flex-wrap justify-center gap-6">
             {[...Array(3)].map((_, i) => (
               <div key={i} className="bg-white/10 backdrop-blur-lg rounded-2xl p-6 w-80 h-64 animate-pulse">
-                <div className="flex items-center mb-4">
+                <div className="flex items-center mb-4 flex-shrink-0">
                   <div className="w-16 h-16 rounded-full bg-white/20"></div>
                   <div className="ml-4 space-y-2">
                     <div className="h-4 w-32 bg-white/20 rounded"></div>
@@ -90,13 +129,13 @@ const Connections = () => {
         <p className="text-lg text-white/70 text-center mb-12">Stay connected with your network</p>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {connections.map((connection) => {
+          {currentCards.map((connection) => {
             const { _id, firstName, lastName, photoUrl, age, gender, about } = connection;
 
             return (
               <div
                 key={_id}
-                className="bg-white/10 backdrop-blur-lg rounded-2xl p-6 transition-all hover:scale-[1.02] hover:bg-white/15 border border-white/10"
+                className="bg-white/10 backdrop-blur-lg rounded-2xl p-6 transition-all hover:scale-[1.02] hover:bg-white/15 border border-white/10 w-full h-[320px] flex flex-col"
               >
                 <div className="flex items-center mb-4">
                   <img
@@ -114,35 +153,89 @@ const Connections = () => {
                   </div>
                 </div>
                 
-                {about && (
-                  <div className="mb-5">
-                    <p className="text-white/80 line-clamp-3">{about}</p>
-                  </div>
-                )}
+                <div className="flex-grow overflow-hidden mb-5">
+                  <p className="text-white/80 line-clamp-3">{about || "No bio available"}</p>
+                </div>
                 
-                <div className="flex justify-between items-center mt-6">
-                  <Link 
-                    to={"/chat/" + _id} 
-                    className="flex-1 mr-2"
-                  >
-                    <button className="w-full py-3 bg-indigo-500 text-white font-semibold rounded-lg hover:bg-indigo-400 transition-all flex items-center justify-center">
-                      <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
-                      </svg>
-                      Message
-                    </button>
-                  </Link>
-                  
-                  <button className="p-3 bg-white/10 text-white rounded-lg hover:bg-white/20 transition-all">
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z"></path>
+                <div className="flex justify-center mt-auto flex-shrink-0">
+                  <button className="w-full py-3 bg-indigo-500 text-white font-semibold rounded-lg transition-all flex items-center justify-center cursor-not-allowed opacity-75">
+                    <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
                     </svg>
+                    Chat
                   </button>
                 </div>
               </div>
             );
           })}
         </div>
+
+        {/* Pagination */}
+        {connections.length > cardsPerPage && (
+          <div className="mt-12 flex flex-col items-center gap-4">
+            <div className="text-sm text-white/70">
+              Showing {indexOfFirstCard + 1}-{Math.min(indexOfLastCard, connections.length)} of {connections.length} connections
+            </div>
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => setCurrentPage(1)}
+                disabled={currentPage === 1}
+                className="p-2 text-white/70 hover:text-white disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M11 19l-7-7 7-7m8 14l-7-7 7-7" />
+                </svg>
+              </button>
+              <button
+                onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+                disabled={currentPage === 1}
+                className="p-2 text-white/70 hover:text-white disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7" />
+                </svg>
+              </button>
+              
+              <div className="flex items-center gap-1">
+                {getPageNumbers().map((number, index) => (
+                  <button
+                    key={index}
+                    onClick={() => typeof number === 'number' && setCurrentPage(number)}
+                    disabled={number === '...' || number === currentPage}
+                    className={`px-3 py-1 rounded-md transition-all ${
+                      number === currentPage
+                        ? 'bg-indigo-500 text-white'
+                        : number === '...'
+                        ? 'text-white/70 cursor-default'
+                        : 'text-white/70 hover:text-white hover:bg-white/10'
+                    }`}
+                  >
+                    {number}
+                  </button>
+                ))}
+              </div>
+
+              <button
+                onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+                disabled={currentPage === totalPages}
+                className="p-2 text-white/70 hover:text-white disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
+                </svg>
+              </button>
+              <button
+                onClick={() => setCurrentPage(totalPages)}
+                disabled={currentPage === totalPages}
+                className="p-2 text-white/70 hover:text-white disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 5l7 7-7 7M5 5l7 7-7 7" />
+                </svg>
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
