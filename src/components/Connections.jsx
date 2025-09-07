@@ -180,7 +180,7 @@ const Connections = () => {
               <button
                 onClick={() => setCurrentPage(1)}
                 disabled={currentPage === 1}
-                className="p-2 text-white/70 hover:text-white disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                className="p-2 text-white/70 hover:text-white  cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-all"
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M11 19l-7-7 7-7m8 14l-7-7 7-7" />
@@ -189,7 +189,7 @@ const Connections = () => {
               <button
                 onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
                 disabled={currentPage === 1}
-                className="p-2 text-white/70 hover:text-white disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                className="p-2 text-white/70 cursor-pointer hover:text-white disabled:opacity-50 disabled:cursor-not-allowed transition-all"
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7" />
@@ -202,7 +202,7 @@ const Connections = () => {
                     key={index}
                     onClick={() => typeof number === 'number' && setCurrentPage(number)}
                     disabled={number === '...' || number === currentPage}
-                    className={`px-3 py-1 rounded-md transition-all ${
+                    className={`px-3 py-1 rounded-md transition-all cursor-pointer ${
                       number === currentPage
                         ? 'bg-indigo-500 text-white'
                         : number === '...'
@@ -218,7 +218,7 @@ const Connections = () => {
               <button
                 onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
                 disabled={currentPage === totalPages}
-                className="p-2 text-white/70 hover:text-white disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                className="p-2 text-white/70 hover:text-white cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-all"
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
@@ -227,7 +227,7 @@ const Connections = () => {
               <button
                 onClick={() => setCurrentPage(totalPages)}
                 disabled={currentPage === totalPages}
-                className="p-2 text-white/70 hover:text-white disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                className="p-2 text-white/70 hover:text-white cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-all"
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 5l7 7-7 7M5 5l7 7-7 7" />
